@@ -1,0 +1,92 @@
+https://www.youtube.com/watch?v=dhdMhiNt5mk
+https://www.youtube.com/watch?v=2lm_pKhV4gQ
+
+
+
+
+static String textoBaseDePreguntas = "Objeto\tArbol\tCuaderno\tBalon\tManzana"
+    +"\n"
+    +"Aviones\tAVC-123\tCazaT23\tTera231\tVollF11"
+    +"\n"
+    +"Carros\tLambo\tFerrari\tBugatti\tMercedez";
+        
+    static String[] renglones = textoBaseDePreguntas.split("\n");
+    static int cantidadDePreguntas = renglones.length;
+    static String[][]baseDePreguntas = new String[cantidadDePreguntas][5];
+    
+    String[] preguntaEscogida;
+    String pregunta;
+    String respuesta;
+    ArrayList<String> Opciones = new ArrayList<>();
+    
+    int n_pregunta = 0;
+    
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+        }
+        for(int i = 0; i < renglones.length; i++){
+            String renglon = renglones[i];      
+            baseDePreguntas[i] = renglon.split("\t");
+        }
+        new NivelUno();
+    }
+    
+    
+    
+    public void escogerPregunta(int n){
+        preguntaEscogida = baseDePreguntas[n];
+        pregunta = preguntaEscogida[0];
+        respuesta = preguntaEscogida[1];
+        Opciones.clear();
+        for(int i = 1; i < preguntaEscogida.length; i++){
+            Opciones.add(preguntaEscogida[i]);
+        }
+        for(int i = 0; i< 4; i++){
+            Collections.shuffle(Opciones);        
+        }
+    }
+    
+    public void mostrarPregunta(){
+        JL_imagen.setText(pregunta);
+        JB_opc1.setText(Opciones.get(0));
+        JB_opc2.setText(Opciones.get(1));
+        JB_opc3.setText(Opciones.get(2));
+        JB_opc4.setText(Opciones.get(3));
+    }
+    
+    public void escogerRespuesta(int n){
+        if(Opciones.get(n).equals(respuesta)){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Su respuesta es correcta",
+                    "Muy bien:)",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Su respuesta es incorrecta, la respuesta es:"+respuesta,
+                    "Qué mal:(",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        jugar();
+    }
+    
+    public void jugar(){
+        if(n_pregunta == cantidadDePreguntas){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Juego Terminado",
+                    "Muy bien:)",
+                    JOptionPane.PLAIN_MESSAGE);
+        }
+        escogerPregunta(n_pregunta);
+        mostrarPregunta();
+        n_pregunta++;
+    }
